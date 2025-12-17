@@ -1,26 +1,274 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Partyplaner_UI">
-  <grid id="27dc6" binding="hauptPanel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="27dc6" binding="hauptPanel" layout-manager="GridLayoutManager" row-count="8" column-count="8" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="500" height="400"/>
+      <xy x="20" y="20" width="980" height="488"/>
     </constraints>
     <properties/>
     <border type="none"/>
     <children>
-      <component id="408df" class="javax.swing.JLabel" binding="partyplanerJLabel">
+      <component id="921fc" class="javax.swing.JLabel" binding="partyplanerLabel">
         <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="0" column="0" row-span="1" col-span="8" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <font name="AppleGothic" size="22"/>
           <text value="Partyplaner"/>
         </properties>
       </component>
-      <component id="77b3e" class="javax.swing.JTextField" binding="partyplaner">
+      <component id="27c9d" class="javax.swing.JLabel" binding="locationLabel">
         <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+          <grid row="2" column="0" row-span="4" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="AppleGothic" size="14"/>
+          <text value="Location:"/>
+        </properties>
+      </component>
+      <component id="66585" class="javax.swing.JComboBox" binding="locationcomboBox">
+        <constraints>
+          <grid row="2" column="2" row-span="4" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="Apple LiGothic" size="16"/>
+          <model>
+            <item value="Innenbereich 40-80 qm"/>
+            <item value="Innenbereich 90-130 qm"/>
+            <item value="Außenbereich 40-80 qm"/>
+            <item value="Außenbereich 90-130 qm"/>
+            <item value="Außenbereich mit Pool 40-80 qm"/>
+            <item value="Außenbereich mit Pool 90-130 qm"/>
+            <item value="Innen- und Außenbereich 60 -120 qm"/>
+            <item value="Innen- und Außenbereich 130 - 190"/>
+          </model>
+        </properties>
+      </component>
+      <component id="b5cf9" class="javax.swing.JLabel" binding="essenLabel">
+        <constraints>
+          <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="125" height="18"/>
+          </grid>
+        </constraints>
+        <properties>
+          <font name="AppleGothic" size="14"/>
+          <text value="Essen:"/>
+        </properties>
+      </component>
+      <component id="12d1c" class="javax.swing.JLabel" binding="personenanzahlJLabel">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="AppleGothic" size="14"/>
+          <text value="Personenanzahl:"/>
+        </properties>
+      </component>
+      <component id="9f112" class="javax.swing.JTextField" binding="PersonenanzahlTextField">
+        <constraints>
+          <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
           </grid>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="46786" class="javax.swing.JLabel" binding="telNrJLabel">
+        <constraints>
+          <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="AppleGothic" size="14"/>
+          <text value="Telefonnummer:"/>
+        </properties>
+      </component>
+      <component id="640ab" class="javax.swing.JTextField" binding="telNrTextField">
+        <constraints>
+          <grid row="7" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="cd1e0" class="javax.swing.JRadioButton" binding="blumenstilRadioButton">
+        <constraints>
+          <grid row="7" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="122" height="25"/>
+          </grid>
+        </constraints>
+        <properties>
+          <font name="AppleGothic" size="12"/>
+          <text value="Blumenstil"/>
+        </properties>
+      </component>
+      <component id="51547" class="javax.swing.JRadioButton" binding="landhausstilRadioButton">
+        <constraints>
+          <grid row="7" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="AppleGothic" size="12"/>
+          <text value="Landhausstil"/>
+        </properties>
+      </component>
+      <component id="64004" class="javax.swing.JRadioButton" binding="gerlandeRadioButton">
+        <constraints>
+          <grid row="7" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="AppleGothic" size="12"/>
+          <text value="Gerlande"/>
+        </properties>
+      </component>
+      <component id="74eed" class="javax.swing.JCheckBox" binding="essenJaCheckBox">
+        <constraints>
+          <grid row="1" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="122" height="25"/>
+          </grid>
+        </constraints>
+        <properties>
+          <font name="AppleGothic" size="12"/>
+          <text value="Ja"/>
+        </properties>
+      </component>
+      <component id="3bec5" class="javax.swing.JCheckBox" binding="essenNeinCheckBox">
+        <constraints>
+          <grid row="1" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="AppleGothic" size="12"/>
+          <text value="Nein"/>
+        </properties>
+      </component>
+      <component id="a00c9" class="javax.swing.JComboBox" binding="essenComboBox">
+        <constraints>
+          <grid row="1" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="Apple LiGothic" size="16"/>
+          <model>
+            <item value="offenes Buffet"/>
+            <item value="3-gänge Menü"/>
+            <item value="5-gänge Menü"/>
+            <item value="finger food"/>
+          </model>
+        </properties>
+      </component>
+      <component id="848f7" class="javax.swing.JLabel" binding="dekorationJLabel">
+        <constraints>
+          <grid row="7" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="125" height="18"/>
+          </grid>
+        </constraints>
+        <properties>
+          <font name="AppleGothic" size="14"/>
+          <text value="Dekoration:"/>
+        </properties>
+      </component>
+      <component id="2adb" class="javax.swing.JRadioButton" binding="technoUndElectroRadioButton" default-binding="true">
+        <constraints>
+          <grid row="5" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="122" height="25"/>
+          </grid>
+        </constraints>
+        <properties>
+          <font name="AppleGothic" size="12"/>
+          <text value="Techno und Electro"/>
+        </properties>
+      </component>
+      <component id="7d576" class="javax.swing.JRadioButton" binding="rnbHiphopRadioButton">
+        <constraints>
+          <grid row="5" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="125" height="26"/>
+          </grid>
+        </constraints>
+        <properties>
+          <font name="AppleGothic" size="12"/>
+          <text value="RNB und HipHop"/>
+        </properties>
+      </component>
+      <component id="f791d" class="javax.swing.JLabel" binding="musikDJLabel">
+        <constraints>
+          <grid row="4" column="4" row-span="1" col-span="4" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="AppleGothic" size="14"/>
+          <text value="Musik / DJ:"/>
+        </properties>
+      </component>
+      <component id="6f080" class="javax.swing.JRadioButton" binding="afroBeatsRadioButton" default-binding="true">
+        <constraints>
+          <grid row="5" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="AppleGothic" size="12"/>
+          <text value="AfroBeats"/>
+        </properties>
+      </component>
+      <component id="77b29" class="javax.swing.JRadioButton" binding="rapRadioButton" default-binding="true">
+        <constraints>
+          <grid row="5" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="AppleGothic" size="12"/>
+          <text value="Rap"/>
+        </properties>
+      </component>
+      <component id="74b5d" class="javax.swing.JSeparator">
+        <constraints>
+          <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="9d615" class="javax.swing.JSeparator">
+        <constraints>
+          <grid row="6" column="4" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="1fe80" class="javax.swing.JSeparator">
+        <constraints>
+          <grid row="6" column="5" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="d078" class="javax.swing.JSeparator">
+        <constraints>
+          <grid row="6" column="6" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="bf442" class="javax.swing.JSeparator">
+        <constraints>
+          <grid row="6" column="7" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="318b0" class="javax.swing.JSeparator">
+        <constraints>
+          <grid row="2" column="5" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="6271f" class="javax.swing.JSeparator">
+        <constraints>
+          <grid row="2" column="7" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="808b3" class="javax.swing.JSeparator">
+        <constraints>
+          <grid row="2" column="6" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="5b815" class="javax.swing.JToolBar$Separator">
+        <constraints>
+          <grid row="6" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="7c1be" class="javax.swing.JToolBar$Separator">
+        <constraints>
+          <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
       </component>
