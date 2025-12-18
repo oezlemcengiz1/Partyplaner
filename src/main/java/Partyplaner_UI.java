@@ -1,6 +1,6 @@
 import javax.swing.*;
 
-public class Partyplaner_UI {
+public class Partyplaner_UI extends JFrame {
     private JPanel hauptPanel;
     private JLabel partyplanerLabel;
     private JLabel locationLabel;
@@ -22,4 +22,16 @@ public class Partyplaner_UI {
     private JRadioButton blumenstilRadioButton;
     private JRadioButton landhausstilRadioButton;
     private JRadioButton gerlandeRadioButton;
+
+    public Partyplaner_UI () {
+        setTitle("Partyplaner");
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setContentPane(hauptPanel);
+        setSize(1000, 500);
+        setVisible(true);
+        setResizable(false);
+    }
+    public static void main(String[] args) {
+        new Partyplaner_UI();
+    }
 }
