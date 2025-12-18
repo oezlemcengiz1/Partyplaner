@@ -34,7 +34,5 @@ public class Partyplaner_UI extends JFrame {
     public static void main(String[] args) {
         new Partyplaner_UI();
     }
-    private JTextField partyplaner;
-    private JLabel partyplanerJLabel;
 
 }
