@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.util.ArrayList;
 
 public class Partyplaner_UI extends JFrame {
     private JPanel hauptPanel;
@@ -22,6 +23,8 @@ public class Partyplaner_UI extends JFrame {
     private JRadioButton blumenstilRadioButton;
     private JRadioButton landhausstilRadioButton;
     private JRadioButton gerlandeRadioButton;
+    // ArrayList
+    private ArrayList<Party> party;
 
     public Partyplaner_UI () {
         setTitle("Partyplaner");
@@ -30,7 +33,17 @@ public class Partyplaner_UI extends JFrame {
         setSize(1000, 500);
         setVisible(true);
         setResizable(false);
-    }
+
+    // Array initialisieren
+    party = new ArrayList<>();
+
+    //Action Listener
+
+    // Methoden
+
+    //Objekte erstellen
+
+    //Main Methode
     public static void main(String[] args) {
         new Partyplaner_UI();
     }
