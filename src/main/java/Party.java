@@ -1,5 +1,6 @@
 public class Party {
 
     private String name;
-    public int zahl;
+    private int zahl;
+    private boolean antwort;
 }
