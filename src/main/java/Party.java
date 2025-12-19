@@ -1,6 +1,19 @@
 public class Party {
 
-    private String name;
-    private int zahl;
-    private boolean antwort;
+    String location;
+    String musikDJ;
+    int personenanzahl;
+    boolean essen;
+
+    // Konstruktor
+
+    public Party(String location, String musikDJ, int personenanzahl, boolean essen) {
+        this.location = location;
+        this.musikDJ = musikDJ;
+        this.personenanzahl = personenanzahl;
+        this.essen = essen;
+    }
+
+    //Methode für JUnit-Test
+
 }
