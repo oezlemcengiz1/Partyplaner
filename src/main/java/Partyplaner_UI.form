@@ -62,10 +62,10 @@
         <properties>
           <font name="Apple LiGothic" size="16"/>
           <model>
+            <item value="finger food"/>
             <item value="offenes Buffet"/>
             <item value="3-gänge Menü"/>
             <item value="5-gänge Menü"/>
-            <item value="finger food"/>
           </model>
         </properties>
       </component>
@@ -103,7 +103,7 @@
           </model>
         </properties>
       </component>
-      <component id="66585" class="javax.swing.JComboBox" binding="locationcomboBox">
+      <component id="66585" class="javax.swing.JComboBox" binding="locationComboBox">
         <constraints>
           <grid row="3" column="4" row-span="3" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -181,7 +181,7 @@
           <text value="Ja"/>
         </properties>
       </component>
-      <component id="d4299" class="javax.swing.JButton" binding="berechneButton">
+      <component id="d4299" class="javax.swing.JButton" binding="kostenBerechneButton">
         <constraints>
           <grid row="6" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
