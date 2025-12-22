@@ -6,7 +6,6 @@ public class Party {
     boolean essen;
 
     // Konstruktor
-
     public Party(String location, String musikDJ, int personenanzahl, boolean essen) {
         this.location = location;
         this.musikDJ = musikDJ;
@@ -15,5 +14,8 @@ public class Party {
     }
 
     //Methode für JUnit-Test
-
+    // → wird später für Filter + JUnit-Test verwendet
+    public boolean hatEssen () {
+        return essen;
+    }
 }
