@@ -6,23 +6,29 @@ import java.util.ArrayList;
     public class Partyplaner_UI extends JFrame {
         private JPanel hauptPanel;
         private JLabel partyplanerLabel;
-        private JLabel locationLabel;
-        private JComboBox locationComboBox;
+
         private JLabel musikDJLabel;
         private JRadioButton rnbHiphopRadioButton;
         private JRadioButton technoUndElectroRadioButton;
         private JRadioButton afroBeatsRadioButton;
         private JRadioButton rapRadioButton;
         private ButtonGroup musikGruppe;
+
         private JLabel essenLabel;
-        private JCheckBox essenJaCheckBox;
-        private JCheckBox essenNeinCheckBox;
+        private ButtonGroup essenGruppe;
         private JComboBox essenComboBox;
+        private JRadioButton essenJaRadioButton;
+        private JRadioButton essenNeinRadioButton;
+
         private JLabel personenanzahlLabel;
-    private JTextField PersonenanzahlTextField;
-    private JComboBox qmCombobox;
-    private JTextField kostenTextField;
-    private JLabel kostenLabel;
+        private JTextField PersonenanzahlTextField;
+
+        private JLabel locationLabel;
+        private JComboBox locationComboBox;
+        private JComboBox qmCombobox;
+
+        private JTextField kostenTextField;
+        private JLabel kostenLabel;
         private JButton kostenBerechneButton;
         private JButton bestellungausfuehrenButton;
 
@@ -43,9 +49,6 @@ import java.util.ArrayList;
         // Array initialisieren
         party = new ArrayList<>();
 
-        // EssenComboBox zu Beginn deaktivieren
-        essenComboBox.setEnabled(false);
-
         //ButtonGroup für Musik-RadioButtons: damit nur ein DJ ausgewählt werden kann
         musikGruppe = new ButtonGroup();
         musikGruppe.add(rnbHiphopRadioButton);
@@ -53,38 +56,43 @@ import java.util.ArrayList;
         musikGruppe.add(afroBeatsRadioButton);
         musikGruppe.add(rapRadioButton);
 
-        //Action Listener: Essen JA
-        essenJaCheckBox.addActionListener(new ActionListener() {
+        // ButtonGroup für Essen-RadioButtons (Ja / Nein)
+        essenGruppe = new ButtonGroup();
+        essenGruppe.add(essenJaRadioButton);
+        essenGruppe.add(essenNeinRadioButton);
+
+        // Startzustand: ComboBox Essen-Auswahl ausblenden
+        essenComboBox.setEnabled(false);
+        essenComboBox.setSelectedIndex(-1);
+
+        //Essen = Ja
+        essenJaRadioButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // "Nein" automatisch abwählen
-                essenNeinCheckBox.setSelected(false);
                 // ComboBox aktivieren
                 essenComboBox.setEnabled(true);
                 // Erste Auswahl automatisch setzen (z. B. "offenes Buffet")
                 essenComboBox.setSelectedIndex(0);
             }
         });
-        //Action Listener: ESSEN NEIN
-        essenNeinCheckBox.addActionListener(new ActionListener() {
+        //Essen = Nein
+        essenNeinRadioButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // "Ja" automatisch abwählen
-                essenJaCheckBox.setSelected(false);
                 // ComboBox deaktivieren
                 essenComboBox.setEnabled(false);
                 // Auswahl entfernen
                 essenComboBox.setSelectedIndex(-1);
             }
         });
-        //Action Listener: Kosten berechnen
+        //Kosten berechnen
         kostenBerechneButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 berechneKosten();
             }
         });
-        //Action Listener: Bestellung ausführen
+        //Bestellung ausführen
         bestellungausfuehrenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -93,7 +101,6 @@ import java.util.ArrayList;
             }
         });
     }
-
     // Methode: prüfen ob Musik gewählt wurde
     private boolean istMusikGewaehlt() {
         return rnbHiphopRadioButton.isSelected()
@@ -101,7 +108,6 @@ import java.util.ArrayList;
                 || afroBeatsRadioButton.isSelected()
                 || rapRadioButton.isSelected();
         }
-
     // Gesamtkosten berechnen
     private void berechneKosten() {
         try {
@@ -116,7 +122,7 @@ import java.util.ArrayList;
                 return;
             }
 
-            // getSelectedItem liefert OBjekt, brauchen aber String dafür deshalb -> (String)
+            // getSelectedItem liefert Objekt, brauchen aber String dafür deshalb -> (String)
             String location = (String) locationComboBox.getSelectedItem();
             String qm = (String) qmCombobox.getSelectedItem();
 
@@ -144,9 +150,9 @@ import java.util.ArrayList;
             else if (afroBeatsRadioButton.isSelected()) djKosten = 230;
             else if (rapRadioButton.isSelected()) djKosten = 190;
 
-            //Essenkosten berechnen(nur wenn "Ja":
+            //Kosten Essen berechnen, nur wenn "Ja":
             double essenKosten = 0;
-            if (essenJaCheckBox.isSelected()) {
+            if (essenJaRadioButton.isSelected()) {
                 String essenArt = (String) essenComboBox.getSelectedItem();
 
                 if ("finger food".equals(essenArt)) essenKosten = 5 * personen;
@@ -190,7 +196,7 @@ import java.util.ArrayList;
         }
 
         //Essen muss entschieden werden (Ja oder Nein)
-        if (!essenJaCheckBox.isSelected() && !essenNeinCheckBox.isSelected()) {
+        if (!essenJaRadioButton.isSelected() && !essenNeinRadioButton.isSelected()) {
             JOptionPane.showMessageDialog(this,
                     "Bitte Essen auswählen!",
                     "Hinweis", JOptionPane.ERROR_MESSAGE);
@@ -204,7 +210,7 @@ import java.util.ArrayList;
 
         //Pop up Essenstext
         String essenText;
-        if (essenJaCheckBox.isSelected()) {
+        if (essenJaRadioButton.isSelected()) {
             essenText = "Ja (" + essenComboBox.getSelectedItem() + ")";
         } else {
             essenText = "Nein";
@@ -233,8 +239,8 @@ import java.util.ArrayList;
         );
     }
 
-    //Musik als String zurückgeben -> für Popup
-    private String ausgewaehlteMusik() {
+        //Musik als String zurückgeben -> für Popup
+        private String ausgewaehlteMusik() {
         if (rnbHiphopRadioButton.isSelected()) return "RNB/HipHop";
         if (technoUndElectroRadioButton.isSelected()) return "Techno/Electro";
         if (afroBeatsRadioButton.isSelected()) return "Afro Beats";
