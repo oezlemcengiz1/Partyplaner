@@ -31,7 +31,7 @@
       <component id="b5cf9" class="javax.swing.JLabel" binding="essenLabel">
         <constraints>
           <grid row="1" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
-            <preferred-size width="113" height="18"/>
+            <preferred-size width="113" height="75"/>
           </grid>
         </constraints>
         <properties>
@@ -41,7 +41,9 @@
       </component>
       <component id="12d1c" class="javax.swing.JLabel" binding="personenanzahlLabel">
         <constraints>
-          <grid row="1" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="107" height="75"/>
+          </grid>
         </constraints>
         <properties>
           <font name="AppleGothic" size="14"/>
@@ -50,7 +52,9 @@
       </component>
       <component id="a00c9" class="javax.swing.JComboBox" binding="essenComboBox">
         <constraints>
-          <grid row="1" column="9" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="9" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="136" height="75"/>
+          </grid>
         </constraints>
         <properties>
           <font name="Apple LiGothic" size="16"/>
@@ -80,7 +84,7 @@
       <component id="9f112" class="javax.swing.JTextField" binding="personenanzahlTextField">
         <constraints>
           <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="-1"/>
+            <preferred-size width="150" height="75"/>
           </grid>
         </constraints>
         <properties/>
@@ -157,7 +161,9 @@
       </component>
       <component id="cbc65" class="javax.swing.JRadioButton" binding="essenJaRadioButton">
         <constraints>
-          <grid row="1" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="42" height="75"/>
+          </grid>
         </constraints>
         <properties>
           <text value="Ja"/>
@@ -165,7 +171,9 @@
       </component>
       <component id="9c71d" class="javax.swing.JRadioButton" binding="essenNeinRadioButton">
         <constraints>
-          <grid row="1" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="56" height="75"/>
+          </grid>
         </constraints>
         <properties>
           <text value="Nein"/>
@@ -196,6 +204,14 @@
         </constraints>
         <properties>
           <text value="Bestellung ausführen"/>
+        </properties>
+      </component>
+      <component id="8857f" class="javax.swing.JButton" binding="speichernButton">
+        <constraints>
+          <grid row="6" column="9" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Speichern"/>
         </properties>
       </component>
     </children>

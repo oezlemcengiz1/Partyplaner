@@ -32,11 +32,16 @@ import java.util.ArrayList;
         private JButton kostenBerechneButton;
         private JButton bestellungausfuehrenButton;
 
+        private JButton speichernButton;
+
         // ArrayList für Objekte aus Klasse "Party"
         private ArrayList<Party> partyListe;
 
         //Bestellung erst erlaubt, wenn Kosten berechnet wurden
         private boolean kostenBerechnet = false;
+
+        //Bestellung erst möglich nach dem Speichern
+        private boolean partyGespeichert = false;
 
         public Partyplaner_UI() {
             setTitle("Partyplaner");
@@ -50,6 +55,12 @@ import java.util.ArrayList;
             partyListe = new ArrayList<>();
             // Startobjekte erzeugen
             initObjekte();
+
+            //Startzustand der Buttons
+            //speichern erst nach Kostenberechnung
+            speichernButton.setEnabled(false);
+            //Bestellung erst nach Speichern
+            bestellungausfuehrenButton.setEnabled(false);
 
             //ButtonGroup für Musik-RadioButtons: damit nur ein DJ ausgewählt werden kann
             musikGruppe = new ButtonGroup();
@@ -101,6 +112,12 @@ import java.util.ArrayList;
                     bestellungAusfuehren();
                 }
             });
+            speichernButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    speichern();
+                }
+            });
         } // <-- Konstruktor geht zu Ende
 
         // legt Startobjekte an, damit Liste nicht leer ist
@@ -139,6 +156,12 @@ import java.util.ArrayList;
                             "Personenanzahl muss größer als 0 sein!",
                             "Fehler", JOptionPane.ERROR_MESSAGE);
                     kostenBerechnet = false;
+
+                    //Buttons werden gesperrt
+                    //damit man nicht nochmal was ändern kann und dann ohne die Kosten erneut zu berechnen speichern kann
+                    speichernButton.setEnabled(false);
+                    bestellungausfuehrenButton.setEnabled(false);
+                    partyGespeichert = false;
                     return;
                 }
                 //Essen muss entschieden werden (Ja oder Nein)
@@ -146,12 +169,22 @@ import java.util.ArrayList;
                     JOptionPane.showMessageDialog(this,
                             "Bitte Essen auswählen!",
                             "Hinweis", JOptionPane.ERROR_MESSAGE);
+
+                    //Buttons werden wieder gesperrt
+                    speichernButton.setEnabled(false);
+                    bestellungausfuehrenButton.setEnabled(false);
+                    partyGespeichert = false;
                     return;
                 }
                 if (!istMusikGewaehlt()) {
                     JOptionPane.showMessageDialog(this,
                             "Bitte eine Musikrichtung auswählen!",
                             "Hinweis", JOptionPane.ERROR_MESSAGE);
+
+                    //Buttons wieder sperren
+                    speichernButton.setEnabled(false);
+                    bestellungausfuehrenButton.setEnabled(false);
+                    partyGespeichert = false;
                     return;
                 }
 
@@ -198,6 +231,12 @@ import java.util.ArrayList;
                 kostenTextField.setText(String.format("%.2f €", gesamtKosten));
                 //kosten wurden erfolgreich berechnet
                 kostenBerechnet = true;
+                //damit wenn man Kosten berechnet hat erst speichern Button aktiviert wird
+                speichernButton.setEnabled(true);
+                //Bestellung noch gesperrt da man noch nichts gespeichert hat
+                bestellungausfuehrenButton.setEnabled(false);
+                //Party noch nicht gespeichert
+                partyGespeichert = false;
 
             } catch (NumberFormatException ex) {
                 //Falls Personenanzahl keine gültige Zahl war
@@ -205,18 +244,63 @@ import java.util.ArrayList;
                         "Bitte eine gültige Zahl bei der Personenanzahl eingeben!",
                         "Fehler", JOptionPane.ERROR_MESSAGE);
                 kostenBerechnet = false;
+                //Fehler -> speichernButton bleibt gesperrt
+                //Buutons sperren
+                speichernButton.setEnabled(false);
+                bestellungausfuehrenButton.setEnabled(false);
+                partyGespeichert = false;
             }
+        }
+
+        //Bestellung speichern
+        //wenn Kosten nicht berechnet wurden, dann darf nicht gespeichert werden
+        //man könnte auch: if (kostenBerechnet) { speichern(); }
+        private void speichern() {
+            if (!kostenBerechnet) {
+                return;
+            }
+            //personenanzahl aus dem TextField holen; Integer.parseInt(..)= wandelt den Text "50" in eine Zahl 50 um
+            int personen = Integer.parseInt(personenanzahlTextField.getText().trim());
+            //location holen
+            String location = (String) locationComboBox.getSelectedItem();
+            //musik holen
+            String musik = ausgewaehlteMusik();
+            //Essen als Wahrheitswert speichern wenn ja oder nein
+            boolean essen = essenJaRadioButton.isSelected();
+
+            //Party-Objekte erzeugen -> wie Aufgabenstellung(Objekte einer selbst definierten Klasse erzeugen)
+            Party neueParty = new Party(location, musik, personen, essen);
+            //neuerzeugte Party-Objekt wird in ArrayList gespeichert
+            partyListe.add(neueParty);
+
+            //Pop up das Speichern funktioniert hat
+            JOptionPane.showMessageDialog(this,
+                    "Party erfolgreich gespeichert!",
+                    "Info", JOptionPane.INFORMATION_MESSAGE);
+
+            //nach dem Speichern kann man "Bestellung ausführen"
+            partyGespeichert = true;
+            //Bestellung wirdfreigeschalten
+            bestellungausfuehrenButton.setEnabled(true);
+            // deaktiviert speicherButton, um nicht mehrfach zu speichern
+            speichernButton.setEnabled(false);
+            /*nachdem man speichern gedrückt hat,
+            so wird alles zurückgesetzt und bei geänderten Eingaben
+            müssen Kosten erneut berechnet werden, bevor erneut gespeichert wird
+             */
+            kostenBerechnet = false;
         }
 
         //Bestellung ausführen
         private void bestellungAusfuehren() {
             //Bestellung nur nach "Kosten berechnen" erlauben
-            if (!kostenBerechnet) {
+            if (!partyGespeichert) {
                 JOptionPane.showMessageDialog(this,
-                        "Bitte zuerst die Kosten berechnen!",
+                        "Bitte zuerst Speichern klicken!",
                         "Hinweis", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+
             String location = (String) locationComboBox.getSelectedItem();
             String qm = (String) qmCombobox.getSelectedItem();
             String musik = ausgewaehlteMusik();
