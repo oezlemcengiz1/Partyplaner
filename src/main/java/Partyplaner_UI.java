@@ -270,7 +270,7 @@ import java.util.ArrayList;
 
             //Party-Objekte erzeugen -> wie Aufgabenstellung(Objekte einer selbst definierten Klasse erzeugen)
             Party neueParty = new Party(location, musik, personen, essen);
-            //neuerzeugte Party-Objekt wird in ArrayList gespeichert
+            //neu erzeugte Party-Objekt wird in ArrayList gespeichert
             partyListe.add(neueParty);
 
             //Pop up das Speichern funktioniert hat
@@ -280,7 +280,7 @@ import java.util.ArrayList;
 
             //nach dem Speichern kann man "Bestellung ausführen"
             partyGespeichert = true;
-            //Bestellung wirdfreigeschalten
+            //Bestellung wird freigeschalten
             bestellungausfuehrenButton.setEnabled(true);
             // deaktiviert speicherButton, um nicht mehrfach zu speichern
             speichernButton.setEnabled(false);
@@ -300,16 +300,12 @@ import java.util.ArrayList;
                         "Hinweis", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-
+            //
             String location = (String) locationComboBox.getSelectedItem();
             String qm = (String) qmCombobox.getSelectedItem();
             String musik = ausgewaehlteMusik();
             int personen = Integer.parseInt(personenanzahlTextField.getText().trim());
             boolean essen = essenJaRadioButton.isSelected();
-
-            // NEU: Objekt erzeugen & speichern (Pflicht!)
-            Party neueParty = new Party(location, musik, personen, essen);
-            partyListe.add(neueParty);
 
             String essenText = essen
                     ? "Ja (" + essenComboBox.getSelectedItem() +
@@ -323,14 +319,6 @@ import java.util.ArrayList;
                             "Essen: " + essenText + "\n" +
                             "Kosten: " + kostenTextField.getText()
             );
-        }
-            // Nutzung der Objekt-Methode
-        private void zeigePartysMitEssen() {
-            for (Party p : partyListe) {
-                if (p.hatEssen()) {
-                    System.out.println(p.location + " | " + p.musikDJ);
-                }
-            }
         }
 
     //Main Methode
