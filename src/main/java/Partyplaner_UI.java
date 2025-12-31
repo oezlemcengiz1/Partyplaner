@@ -447,7 +447,7 @@ import java.util.ArrayList;
             aktualisiereTabelleNachFilter();
             //nach dem Speichern kann man "Bestellung ausführen"
             partyGespeichert = true;
-            //Bestellung wirdfreigeschalten
+            //Bestellung wird freigeschalten
             bestellungausfuehrenButton.setEnabled(true);
             // deaktiviert speicherButton, um nicht mehrfach zu speichern
             speichernButton.setEnabled(false);
@@ -474,8 +474,9 @@ import java.util.ArrayList;
             int personen = Integer.parseInt(personenanzahlTextField.getText().trim());
             boolean essen = essenJaRadioButton.isSelected();
 
-            String essenText = essen ? "Ja (" + essenComboBox.getSelectedItem() + ")" : "Nein";
-
+            String essenText = essen
+                    ? "Ja (" + essenComboBox.getSelectedItem() +
+                    ")" : "Nein";
             JOptionPane.showMessageDialog(this,
                     "Danke für Ihre Bestellung!\n\n" +
                             "Personen: " + personen + "\n" +
