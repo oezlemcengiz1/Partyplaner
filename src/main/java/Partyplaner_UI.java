@@ -1,4 +1,8 @@
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -34,6 +38,13 @@ import java.util.ArrayList;
 
         private JButton speichernButton;
 
+        private JButton filternButton;
+        private JComboBox filternComboBox;
+        private JTable filternTable;
+
+        //TableModel damit wir Zeilen leicht löschen/neu setzen können
+        private DefaultTableModel tableModel;
+
         // ArrayList für Objekte aus Klasse "Party"
         private ArrayList<Party> partyListe;
 
@@ -62,6 +73,10 @@ import java.util.ArrayList;
             //Bestellung erst nach Speichern
             bestellungausfuehrenButton.setEnabled(false);
 
+            //Damit ComboBox leer steht
+            locationComboBox.setSelectedIndex(-1);
+            qmCombobox.setSelectedIndex(-1);
+
             //ButtonGroup für Musik-RadioButtons: damit nur ein DJ ausgewählt werden kann
             musikGruppe = new ButtonGroup();
             musikGruppe.add(rnbHiphopRadioButton);
@@ -78,6 +93,35 @@ import java.util.ArrayList;
             essenComboBox.setEnabled(false);
             essenComboBox.setSelectedIndex(-1);
 
+            //JTable (Spalten definieren)
+            initTabelle();
+
+            filternComboBox.setSelectedIndex(-1);
+
+            //damit man Startobjekte sofort sieht, ohne erst auf Filtern zu klicken
+            aktualisiereTabelleNachFilter();
+
+            //Reset Listener für Alle Eingaben
+            //sobald etwas nach der Kostenberechnung geändert, gelöscht oder neu eingetragen wird
+            personenanzahlTextField.getDocument().addDocumentListener(new DocumentListener() {
+                @Override public void insertUpdate(DocumentEvent e) { resetStatusNachAenderung(); }
+                @Override public void removeUpdate(DocumentEvent e) { resetStatusNachAenderung(); }
+                @Override public void changedUpdate(DocumentEvent e) { resetStatusNachAenderung(); }
+            });
+
+            //Musik RadioButtons bei Änderungen -> erneut Kosten berechnen (Speichern, Bestellung ausführen Button "erlöscht")
+            rnbHiphopRadioButton.addActionListener(e -> resetStatusNachAenderung());
+            technoUndElectroRadioButton.addActionListener(e -> resetStatusNachAenderung());
+            afroBeatsRadioButton.addActionListener(e -> resetStatusNachAenderung());
+            rapRadioButton.addActionListener(e -> resetStatusNachAenderung());
+
+            //bei Änderung von essen ja nein -> erneut Kosten berechnen
+            essenJaRadioButton.addActionListener(e -> resetStatusNachAenderung());
+            essenNeinRadioButton.addActionListener(e -> resetStatusNachAenderung());
+
+            //Änderung bei Essen ComboBox -> erneut Kosten berechnen
+            essenComboBox.addActionListener(e -> resetStatusNachAenderung());
+
             //Essen = Ja
             essenJaRadioButton.addActionListener(new ActionListener() {
                 @Override
@@ -85,7 +129,7 @@ import java.util.ArrayList;
                     // ComboBox aktivieren
                     essenComboBox.setEnabled(true);
                     // Erste Auswahl automatisch setzen (z. B. "offenes Buffet")
-                    essenComboBox.setSelectedIndex(0);
+                    essenComboBox.setSelectedIndex(-1);
                 }
             });
             //Essen = Nein
@@ -118,13 +162,47 @@ import java.util.ArrayList;
                     speichern();
                 }
             });
+            filternButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    aktualisiereTabelleNachFilter();
+                }
+            });
+            locationComboBox.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    resetStatusNachAenderung();
+                }
+            });
+            qmCombobox.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    resetStatusNachAenderung();
+                }
+            });
         } // <-- Konstruktor geht zu Ende
 
-        // legt Startobjekte an, damit Liste nicht leer ist
+        //legt Startobjekte in JTable an, damit Liste nicht leer ist (3 Parties)
         public void initObjekte() {
-            partyListe.add(new Party("Innenbereich", "RNB", 30, true));
-            partyListe.add(new Party("Außenbereich", "Techno", 80, false));
-            partyListe.add(new Party("Innen- und Außenbereich", "Afro Beats", 50, true));
+            partyListe.add(new Party("Innenbereich", "40 - 80 qm", "RNB und HipHop", 30, true));
+            partyListe.add(new Party("Außenbereich", "90 - 120 qm", "Techno und Electro", 80, false));
+            partyListe.add(new Party("Innen- und Außenbereich", "90 - 120 qm", "Afro Beats", 50, true));
+        }
+
+        //Methode: sperrt Speichern und Bestellung ausführen Button
+        private void sperreAktionen() {
+            speichernButton.setEnabled(false);
+            bestellungausfuehrenButton.setEnabled(false);
+            partyGespeichert = false;
+            kostenBerechnet = false;
+        }
+
+        //wenn etwas an der Party geändert wird -> kosten sind nicht mehr gültig, muss erneut berechnet werden
+        private void resetStatusNachAenderung() {
+            kostenBerechnet = false;
+            partyGespeichert = false;
+            speichernButton.setEnabled(false);
+            bestellungausfuehrenButton.setEnabled(false);
         }
 
         // Methode: prüfen ob Musik gewählt wurde
@@ -144,6 +222,80 @@ import java.util.ArrayList;
             return "";
         }
 
+        //definiert Spaltennamen in JTable
+        private void initTabelle() {
+            //Spaltenüberschriften der JTable
+            String[] spalten = {"Location", "QM", "Musik/DJ", "Personen", "Essen"};
+            //DefaultTableModel: Daten für JTable
+            //erste gespeicherte fängt dann direkt bei 0 an
+            tableModel = new DefaultTableModel(spalten, 0) {
+                @Override
+                //isCellEditable: damit man Daten nicht in der Tabelle ändern kann
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
+
+            //verknüpft JTable mit TableModel -> JTable weiß welche Daten sie anzeigen soll
+            filternTable.setModel(tableModel);
+
+            //Sortierung per Spaltenklick aktivieren, muss nicht sein!!
+            TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
+            filternTable.setRowSorter(sorter);
+        }
+
+        //löscht alle bisherigen Zeilen
+        //Wandelt Party-Objekte in Tabellenzeilen um
+        //Erst Tabelle leeren, dann jede Party als neue Zeile hinzufügen
+        private void fuelleTabelleMitListe(ArrayList<Party> liste) {
+            tableModel.setRowCount(0);
+
+            for(Party p : liste) {
+                String essenText = p.essen ? "Ja" : "Nein";
+
+                Object[] zeile = {
+                        p.location,
+                        p.qm,
+                        p.musikDJ,
+                        p.personenanzahl,
+                        essenText
+                };
+
+                tableModel.addRow(zeile);
+            }
+        }
+
+        //Liest Filterauswahl aus filterComboBox und baut eine gefilterte Liste
+        private void aktualisiereTabelleNachFilter() {
+            String auswahl = (String) filternComboBox.getSelectedItem();
+            ArrayList<Party> gefiltert = new ArrayList<>();
+            //falls nicht ausgewählt ist -> alle angezeigt
+            if (auswahl == null || auswahl.isBlank()) {
+                fuelleTabelleMitListe(partyListe);
+                return;
+            }
+            //Parties nur mit Essen angezeigt
+            if ("Parties nur mit Essen".equals(auswahl)) {
+                for (Party p : partyListe) {
+                    if (p.hatEssen()) {
+                        gefiltert.add(p);
+                    }
+                }
+                fuelleTabelleMitListe(gefiltert);
+                //Parties nur ohne Essen angezeigt
+            } else if ("Parties nur ohne Essen".equals(auswahl)) {
+                for (Party p : partyListe) {
+                    if (!p.hatEssen()) {
+                        gefiltert.add(p);
+                    }
+                }
+                fuelleTabelleMitListe(gefiltert);
+                //Alle Parties angezeigt
+            } else {
+                fuelleTabelleMitListe(partyListe);
+            }
+        }
+
         // Gesamtkosten berechnen
         private void berechneKosten() {
             try {
@@ -155,13 +307,9 @@ import java.util.ArrayList;
                     JOptionPane.showMessageDialog(this,
                             "Personenanzahl muss größer als 0 sein!",
                             "Fehler", JOptionPane.ERROR_MESSAGE);
-                    kostenBerechnet = false;
-
                     //Buttons werden gesperrt
                     //damit man nicht nochmal was ändern kann und dann ohne die Kosten erneut zu berechnen speichern kann
-                    speichernButton.setEnabled(false);
-                    bestellungausfuehrenButton.setEnabled(false);
-                    partyGespeichert = false;
+                    sperreAktionen();
                     return;
                 }
                 //Essen muss entschieden werden (Ja oder Nein)
@@ -171,20 +319,41 @@ import java.util.ArrayList;
                             "Hinweis", JOptionPane.ERROR_MESSAGE);
 
                     //Buttons werden wieder gesperrt
-                    speichernButton.setEnabled(false);
-                    bestellungausfuehrenButton.setEnabled(false);
-                    partyGespeichert = false;
+                    sperreAktionen();
                     return;
                 }
+
+                if (essenJaRadioButton.isSelected() && essenComboBox.getSelectedIndex() == -1) {
+                    JOptionPane.showMessageDialog(this,
+                            "Bitte Essen-Art auswählen!",
+                            "Hinweis", JOptionPane.ERROR_MESSAGE);
+                    sperreAktionen();
+                    return;
+                }
+
+                if (locationComboBox.getSelectedIndex() == -1) {
+                    JOptionPane.showMessageDialog(this,
+                            "Bitte eine Location auswählen!",
+                            "Hinweis", JOptionPane.ERROR_MESSAGE);
+                    sperreAktionen();
+                    return;
+                }
+
+                if (qmCombobox.getSelectedIndex() == -1) {
+                    JOptionPane.showMessageDialog(this,
+                            "Bitte eine QM-Größe auswählen!",
+                            "Hinweis", JOptionPane.ERROR_MESSAGE);
+                    sperreAktionen();
+                    return;
+                }
+
                 if (!istMusikGewaehlt()) {
                     JOptionPane.showMessageDialog(this,
                             "Bitte eine Musikrichtung auswählen!",
                             "Hinweis", JOptionPane.ERROR_MESSAGE);
 
                     //Buttons wieder sperren
-                    speichernButton.setEnabled(false);
-                    bestellungausfuehrenButton.setEnabled(false);
-                    partyGespeichert = false;
+                    sperreAktionen();
                     return;
                 }
 
@@ -201,11 +370,8 @@ import java.util.ArrayList;
                 else if ("Innen- und Außenbereich".equals(location)) locationKosten = 350;
 
                 //+ qm
-                if ("90 - 120 qm".equals(qm)) {
-                    locationKosten += 250;
-                } else if ("40 - 80 qm".equals(qm)) {
-                    locationKosten += 150;
-                }
+                if ("90 - 120 qm".equals(qm)) locationKosten += 250;
+                else if ("40 - 80 qm".equals(qm)) locationKosten += 150;
 
                 //DJ-Kosten berechnen:
                 double djKosten = 0;
@@ -229,11 +395,13 @@ import java.util.ArrayList;
                 double gesamtKosten = locationKosten + djKosten + essenKosten;
                 // Ausgabe formatieren: zwei Nachkommastellen + €
                 kostenTextField.setText(String.format("%.2f €", gesamtKosten));
+                //jetzt darf gespeichert werden
                 //kosten wurden erfolgreich berechnet
                 kostenBerechnet = true;
                 //damit wenn man Kosten berechnet hat erst speichern Button aktiviert wird
                 speichernButton.setEnabled(true);
                 //Bestellung noch gesperrt da man noch nichts gespeichert hat
+                //Bestellung bleibt noch so lange gesperrt bis gespeichert wurde
                 bestellungausfuehrenButton.setEnabled(false);
                 //Party noch nicht gespeichert
                 partyGespeichert = false;
@@ -243,12 +411,7 @@ import java.util.ArrayList;
                 JOptionPane.showMessageDialog(this,
                         "Bitte eine gültige Zahl bei der Personenanzahl eingeben!",
                         "Fehler", JOptionPane.ERROR_MESSAGE);
-                kostenBerechnet = false;
-                //Fehler -> speichernButton bleibt gesperrt
-                //Buutons sperren
-                speichernButton.setEnabled(false);
-                bestellungausfuehrenButton.setEnabled(false);
-                partyGespeichert = false;
+                sperreAktionen();
             }
         }
 
@@ -263,13 +426,15 @@ import java.util.ArrayList;
             int personen = Integer.parseInt(personenanzahlTextField.getText().trim());
             //location holen
             String location = (String) locationComboBox.getSelectedItem();
+            //qm holen
+            String qm = (String) qmCombobox.getSelectedItem();
             //musik holen
             String musik = ausgewaehlteMusik();
             //Essen als Wahrheitswert speichern wenn ja oder nein
             boolean essen = essenJaRadioButton.isSelected();
 
             //Party-Objekte erzeugen -> wie Aufgabenstellung(Objekte einer selbst definierten Klasse erzeugen)
-            Party neueParty = new Party(location, musik, personen, essen);
+            Party neueParty = new Party(location, qm, musik, personen, essen);
             //neuerzeugte Party-Objekt wird in ArrayList gespeichert
             partyListe.add(neueParty);
 
@@ -278,6 +443,8 @@ import java.util.ArrayList;
                     "Party erfolgreich gespeichert!",
                     "Info", JOptionPane.INFORMATION_MESSAGE);
 
+            //nach dem Speichern Tabelle aktualisieren
+            aktualisiereTabelleNachFilter();
             //nach dem Speichern kann man "Bestellung ausführen"
             partyGespeichert = true;
             //Bestellung wirdfreigeschalten
@@ -307,13 +474,8 @@ import java.util.ArrayList;
             int personen = Integer.parseInt(personenanzahlTextField.getText().trim());
             boolean essen = essenJaRadioButton.isSelected();
 
-            // NEU: Objekt erzeugen & speichern (Pflicht!)
-            Party neueParty = new Party(location, musik, personen, essen);
-            partyListe.add(neueParty);
+            String essenText = essen ? "Ja (" + essenComboBox.getSelectedItem() + ")" : "Nein";
 
-            String essenText = essen
-                    ? "Ja (" + essenComboBox.getSelectedItem() +
-                    ")" : "Nein";
             JOptionPane.showMessageDialog(this,
                     "Danke für Ihre Bestellung!\n\n" +
                             "Personen: " + personen + "\n" +
@@ -323,14 +485,6 @@ import java.util.ArrayList;
                             "Essen: " + essenText + "\n" +
                             "Kosten: " + kostenTextField.getText()
             );
-        }
-            // Nutzung der Objekt-Methode
-        private void zeigePartysMitEssen() {
-            for (Party p : partyListe) {
-                if (p.hatEssen()) {
-                    System.out.println(p.location + " | " + p.musikDJ);
-                }
-            }
         }
 
     //Main Methode

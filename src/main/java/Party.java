@@ -1,13 +1,15 @@
 public class Party {
 
     String location;
+    String qm;
     String musikDJ;
     int personenanzahl;
     boolean essen;
 
     // Konstruktor
-    public Party(String location, String musikDJ, int personenanzahl, boolean essen) {
+    public Party(String location, String qm, String musikDJ, int personenanzahl, boolean essen) {
         this.location = location;
+        this.qm = qm;
         this.musikDJ = musikDJ;
         this.personenanzahl = personenanzahl;
         this.essen = essen;
