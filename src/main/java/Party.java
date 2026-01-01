@@ -17,7 +17,7 @@ public class Party {
 
     //Methode für JUnit-Test
     // → wird später für Filter + JUnit-Test verwendet
-    public boolean hatEssen () {
-        return essen;
+    public boolean istEssenEnthalten() {
+        return essen && personenanzahl > 0;
     }
 }
