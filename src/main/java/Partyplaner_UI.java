@@ -283,7 +283,7 @@ import java.util.ArrayList;
             //Parties nur mit Essen angezeigt
             if ("Parties nur mit Essen".equals(auswahl)) {
                 for (Party p : partyListe) {
-                    if (p.hatEssen()) {
+                    if (p.istEssenEnthalten()) {
                         gefiltert.add(p);
                     }
                 }
@@ -291,7 +291,7 @@ import java.util.ArrayList;
                 //Parties nur ohne Essen angezeigt
             } else if ("Parties  ohne Essen".equals(auswahl)) {
                 for (Party p : partyListe) {
-                    if (!p.hatEssen()) {
+                    if (!p.istEssenEnthalten()) {
                         gefiltert.add(p);
                     }
                 }
