@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.Color;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
@@ -41,6 +42,7 @@ import java.util.ArrayList;
         private JButton filternButton;
         private JComboBox filternComboBox;
         private JTable filternTable;
+        private JLabel iconLaebel;
 
         //TableModel damit wir Zeilen leicht löschen/neu setzen können
         private DefaultTableModel tableModel;
@@ -58,7 +60,11 @@ import java.util.ArrayList;
             setTitle("Partyplaner");
             setDefaultCloseOperation(EXIT_ON_CLOSE);
             setContentPane(hauptPanel);
-            setSize(1000, 500);
+            setSize(1200, 600);
+
+            //Farbe setzen
+            hauptPanel.setBackground(Color.PINK);
+
             setVisible(true);
             setResizable(false);
 
@@ -283,7 +289,7 @@ import java.util.ArrayList;
                 }
                 fuelleTabelleMitListe(gefiltert);
                 //Parties nur ohne Essen angezeigt
-            } else if ("Parties nur ohne Essen".equals(auswahl)) {
+            } else if ("Parties  ohne Essen".equals(auswahl)) {
                 for (Party p : partyListe) {
                     if (!p.hatEssen()) {
                         gefiltert.add(p);
