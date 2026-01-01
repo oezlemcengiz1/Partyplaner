@@ -190,8 +190,8 @@ import java.util.ArrayList;
 
         //legt Startobjekte in JTable an, damit Liste nicht leer ist (3 Parties)
         public void initObjekte() {
-            partyListe.add(new Party("Innenbereich", "40 - 80 qm", "RNB und HipHop", 30, true));
-            partyListe.add(new Party("Außenbereich", "90 - 120 qm", "Techno und Electro", 80, false));
+            partyListe.add(new Party("Innenbereich", "40 - 80 qm", "RNB/HipHop", 30, true));
+            partyListe.add(new Party("Außenbereich", "90 - 120 qm", "Techno/Electro", 80, false));
             partyListe.add(new Party("Innen- und Außenbereich", "90 - 120 qm", "Afro Beats", 50, true));
         }
 
