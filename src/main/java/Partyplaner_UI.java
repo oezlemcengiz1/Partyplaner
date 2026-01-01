@@ -289,7 +289,7 @@ import java.util.ArrayList;
                 }
                 fuelleTabelleMitListe(gefiltert);
                 //Parties nur ohne Essen angezeigt
-            } else if ("Parties  ohne Essen".equals(auswahl)) {
+            } else if ("Parties nur ohne Essen".equals(auswahl)) {
                 for (Party p : partyListe) {
                     if (!p.istEssenEnthalten()) {
                         gefiltert.add(p);
