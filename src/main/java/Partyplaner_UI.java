@@ -107,17 +107,7 @@ import java.util.ArrayList;
 
             // NOCH ÄNDERN wie normaler ActionListener
             //Musik RadioButtons bei Änderungen -> erneut Kosten berechnen (Speichern, Bestellung ausführen Button "erlöscht")
-            rnbHiphopRadioButton.addActionListener(e -> resetStatusNachAenderung());
-            technoUndElectroRadioButton.addActionListener(e -> resetStatusNachAenderung());
-            afroBeatsRadioButton.addActionListener(e -> resetStatusNachAenderung());
-            rapRadioButton.addActionListener(e -> resetStatusNachAenderung());
 
-            //bei Änderung von essen ja nein -> erneut Kosten berechnen
-            essenJaRadioButton.addActionListener(e -> resetStatusNachAenderung());
-            essenNeinRadioButton.addActionListener(e -> resetStatusNachAenderung());
-
-            //Änderung bei Essen ComboBox -> erneut Kosten berechnen
-            essenComboBox.addActionListener(e -> resetStatusNachAenderung());
 
 
             //Essen = Ja
@@ -185,6 +175,53 @@ import java.util.ArrayList;
                 }
             });
             personenanzahlTextField.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    resetStatusNachAenderung();
+                }
+            });
+            personenanzahlTextField.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    resetStatusNachAenderung();
+                }
+            });
+            essenJaRadioButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    resetStatusNachAenderung();
+                }
+            });
+            essenNeinRadioButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                }
+            });
+            essenComboBox.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    resetStatusNachAenderung();
+                }
+            });
+            rnbHiphopRadioButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    resetStatusNachAenderung();
+                }
+            });
+            technoUndElectroRadioButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    resetStatusNachAenderung();
+                }
+            });
+            afroBeatsRadioButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    resetStatusNachAenderung();
+                }
+            });
+            rapRadioButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     resetStatusNachAenderung();
