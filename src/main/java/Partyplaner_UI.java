@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.Color;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.event.ActionEvent;
@@ -32,19 +30,19 @@ import java.util.ArrayList;
         private JComboBox locationComboBox;
         private JComboBox qmCombobox;
 
-        private JTextField kostenTextField;
         private JLabel kostenLabel;
+        private JTextField kostenTextField;
         private JButton kostenBerechneButton;
         private JButton bestellungausfuehrenButton;
 
         private JButton speichernButton;
-
         private JButton filternButton;
         private JComboBox filternComboBox;
         private JTable filternTable;
-        private JLabel iconLaebel;
+        private JLabel iconLabel;
+        private JButton loeschenButton;
 
-        //TableModel damit wir Zeilen leicht löschen/neu setzen können
+        //TableModel für Darstellung der Parties
         private DefaultTableModel tableModel;
 
         // ArrayList für Objekte aus Klasse "Party"
@@ -61,15 +59,15 @@ import java.util.ArrayList;
             setDefaultCloseOperation(EXIT_ON_CLOSE);
             setContentPane(hauptPanel);
             setSize(1200, 600);
+            setVisible(true);
+            setResizable(false);
 
             //Farbe setzen
             hauptPanel.setBackground(Color.PINK);
 
-            setVisible(true);
-            setResizable(false);
-
             // Array initialisieren
             partyListe = new ArrayList<>();
+
             // Startobjekte erzeugen
             initObjekte();
 
@@ -99,7 +97,7 @@ import java.util.ArrayList;
             essenComboBox.setEnabled(false);
             essenComboBox.setSelectedIndex(-1);
 
-            //JTable (Spalten definieren)
+            //JTable (Methode zur Initialisierung)
             initTabelle();
 
             filternComboBox.setSelectedIndex(-1);
@@ -107,14 +105,7 @@ import java.util.ArrayList;
             //damit man Startobjekte sofort sieht, ohne erst auf Filtern zu klicken
             aktualisiereTabelleNachFilter();
 
-            //Reset Listener für Alle Eingaben
-            //sobald etwas nach der Kostenberechnung geändert, gelöscht oder neu eingetragen wird
-            personenanzahlTextField.getDocument().addDocumentListener(new DocumentListener() {
-                @Override public void insertUpdate(DocumentEvent e) { resetStatusNachAenderung(); }
-                @Override public void removeUpdate(DocumentEvent e) { resetStatusNachAenderung(); }
-                @Override public void changedUpdate(DocumentEvent e) { resetStatusNachAenderung(); }
-            });
-
+            // NOCH ÄNDERN wie normaler ActionListener
             //Musik RadioButtons bei Änderungen -> erneut Kosten berechnen (Speichern, Bestellung ausführen Button "erlöscht")
             rnbHiphopRadioButton.addActionListener(e -> resetStatusNachAenderung());
             technoUndElectroRadioButton.addActionListener(e -> resetStatusNachAenderung());
@@ -127,6 +118,7 @@ import java.util.ArrayList;
 
             //Änderung bei Essen ComboBox -> erneut Kosten berechnen
             essenComboBox.addActionListener(e -> resetStatusNachAenderung());
+
 
             //Essen = Ja
             essenJaRadioButton.addActionListener(new ActionListener() {
@@ -186,6 +178,18 @@ import java.util.ArrayList;
                     resetStatusNachAenderung();
                 }
             });
+            loeschenButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    alleloeschen();
+                }
+            });
+            personenanzahlTextField.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    resetStatusNachAenderung();
+                }
+            });
         } // <-- Konstruktor geht zu Ende
 
         //legt Startobjekte in JTable an, damit Liste nicht leer ist (3 Parties)
@@ -211,6 +215,33 @@ import java.util.ArrayList;
             bestellungausfuehrenButton.setEnabled(false);
         }
 
+
+        private void resetEingaben() {
+
+            // Textfelder leeren
+            personenanzahlTextField.setText("");
+            kostenTextField.setText("");
+
+            // RadioButtons zurücksetzen
+            musikGruppe.clearSelection();
+            essenGruppe.clearSelection();
+
+            // ComboBoxen zurücksetzen
+            locationComboBox.setSelectedIndex(-1);
+            qmCombobox.setSelectedIndex(-1);
+            essenComboBox.setSelectedIndex(-1);
+            essenComboBox.setEnabled(false);
+
+            // Buttons zurücksetzen
+            speichernButton.setEnabled(false);
+            bestellungausfuehrenButton.setEnabled(false);
+
+            // Status zurücksetzen
+            kostenBerechnet = false;
+            partyGespeichert = false;
+
+        }
+
         // Methode: prüfen ob Musik gewählt wurde
         private boolean istMusikGewaehlt() {
             return rnbHiphopRadioButton.isSelected()
@@ -228,7 +259,7 @@ import java.util.ArrayList;
             return "";
         }
 
-        //definiert Spaltennamen in JTable
+        //Tabellen initialisieren in JTable
         private void initTabelle() {
             //Spaltenüberschriften der JTable
             String[] spalten = {"Location", "QM", "Musik/DJ", "Personen", "Essen"};
@@ -300,6 +331,18 @@ import java.util.ArrayList;
             } else {
                 fuelleTabelleMitListe(partyListe);
             }
+        }
+
+        private void alleloeschen() {
+            // ArrayList leeren (Daten)
+            partyListe.clear();
+            // Tabelle leeren (Anzeige)
+            tableModel.setRowCount(0);
+            // Buttons sperren
+            sperreAktionen();
+            JOptionPane.showMessageDialog(this,
+                    "Alle Parties wurden gelöscht!",
+                    "Info", JOptionPane.INFORMATION_MESSAGE);
         }
 
         // Gesamtkosten berechnen
@@ -462,6 +505,7 @@ import java.util.ArrayList;
             müssen Kosten erneut berechnet werden, bevor erneut gespeichert wird
              */
             kostenBerechnet = false;
+
         }
 
         //Bestellung ausführen
@@ -492,10 +536,11 @@ import java.util.ArrayList;
                             "Essen: " + essenText + "\n" +
                             "Kosten: " + kostenTextField.getText()
             );
+            resetEingaben();
         }
 
-    //Main Methode
-    public static void main(String[] args) {
+        //Main Methode
+        static void main(String[] args) {
         new Partyplaner_UI();
     }
 }

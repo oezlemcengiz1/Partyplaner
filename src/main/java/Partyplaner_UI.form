@@ -83,9 +83,7 @@
       </component>
       <component id="9f112" class="javax.swing.JTextField" binding="personenanzahlTextField">
         <constraints>
-          <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="75"/>
-          </grid>
+          <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
       </component>
@@ -247,7 +245,7 @@
           </component>
         </children>
       </scrollpane>
-      <component id="18ba5" class="javax.swing.JLabel" binding="iconLaebel">
+      <component id="18ba5" class="javax.swing.JLabel" binding="iconLabel">
         <constraints>
           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -261,6 +259,14 @@
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
+      </component>
+      <component id="19f3b" class="javax.swing.JButton" binding="loeschenButton">
+        <constraints>
+          <grid row="9" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Löschen"/>
+        </properties>
       </component>
     </children>
   </grid>
