@@ -118,6 +118,7 @@ import java.util.ArrayList;
                     essenComboBox.setEnabled(true);
                     // Erste Auswahl automatisch setzen (z. B. "offenes Buffet")
                     essenComboBox.setSelectedIndex(-1);
+                    resetStatusNachAenderung();
                 }
             });
             //Essen = Nein
@@ -128,6 +129,7 @@ import java.util.ArrayList;
                     essenComboBox.setEnabled(false);
                     // Auswahl entfernen
                     essenComboBox.setSelectedIndex(-1);
+                    resetStatusNachAenderung();
                 }
             });
             //Kosten berechnen
@@ -178,23 +180,6 @@ import java.util.ArrayList;
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     resetStatusNachAenderung();
-                }
-            });
-            personenanzahlTextField.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    resetStatusNachAenderung();
-                }
-            });
-            essenJaRadioButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    resetStatusNachAenderung();
-                }
-            });
-            essenNeinRadioButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
                 }
             });
             essenComboBox.addActionListener(new ActionListener() {
