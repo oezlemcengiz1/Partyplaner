@@ -176,12 +176,6 @@ import java.util.ArrayList;
                     alleloeschen();
                 }
             });
-            personenanzahlTextField.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    resetStatusNachAenderung();
-                }
-            });
             essenComboBox.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
