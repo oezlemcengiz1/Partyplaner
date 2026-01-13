@@ -215,14 +215,6 @@ import java.util.ArrayList;
             partyListe.add(new Party("Innen- und Außenbereich", "90 - 120 qm", "Afro Beats", 50, true));
         }
 
-        //Methode: sperrt Speichern und Bestellung ausführen Button
-        private void sperreAktionen() {
-            speichernButton.setEnabled(false);
-            bestellungausfuehrenButton.setEnabled(false);
-            partyGespeichert = false;
-            kostenBerechnet = false;
-        }
-
         //wenn etwas an der Party geändert wird -> kosten sind nicht mehr gültig, muss erneut berechnet werden
         private void resetStatusNachAenderung() {
             kostenBerechnet = false;
@@ -355,7 +347,7 @@ import java.util.ArrayList;
             // Tabelle leeren (Anzeige)
             tableModel.setRowCount(0);
             // Buttons sperren
-            sperreAktionen();
+            resetStatusNachAenderung();
             JOptionPane.showMessageDialog(this,
                     "Alle Parties wurden gelöscht!",
                     "Info", JOptionPane.INFORMATION_MESSAGE);
@@ -374,7 +366,7 @@ import java.util.ArrayList;
                             "Hinweis", JOptionPane.ERROR_MESSAGE);
                     //Buttons werden gesperrt
                     //damit man nicht nochmal was ändern kann und dann ohne die Kosten erneut zu berechnen speichern kann
-                    sperreAktionen();
+                    resetStatusNachAenderung();
                     return;
                 }
                 //Essen muss entschieden werden (Ja oder Nein)
@@ -384,7 +376,7 @@ import java.util.ArrayList;
                             "Hinweis", JOptionPane.ERROR_MESSAGE);
 
                     //Buttons werden wieder gesperrt
-                    sperreAktionen();
+                    resetStatusNachAenderung();
                     return;
                 }
 
@@ -392,7 +384,7 @@ import java.util.ArrayList;
                     JOptionPane.showMessageDialog(this,
                             "Bitte Essen-Art auswählen!",
                             "Hinweis", JOptionPane.ERROR_MESSAGE);
-                    sperreAktionen();
+                    resetStatusNachAenderung();
                     return;
                 }
 
@@ -400,7 +392,7 @@ import java.util.ArrayList;
                     JOptionPane.showMessageDialog(this,
                             "Bitte eine Location auswählen!",
                             "Hinweis", JOptionPane.ERROR_MESSAGE);
-                    sperreAktionen();
+                    resetStatusNachAenderung();
                     return;
                 }
 
@@ -408,7 +400,7 @@ import java.util.ArrayList;
                     JOptionPane.showMessageDialog(this,
                             "Bitte eine QM-Größe auswählen!",
                             "Hinweis", JOptionPane.ERROR_MESSAGE);
-                    sperreAktionen();
+                    resetStatusNachAenderung();
                     return;
                 }
 
@@ -418,7 +410,7 @@ import java.util.ArrayList;
                             "Hinweis", JOptionPane.ERROR_MESSAGE);
 
                     //Buttons wieder sperren
-                    sperreAktionen();
+                    resetStatusNachAenderung();
                     return;
                 }
 
@@ -476,7 +468,7 @@ import java.util.ArrayList;
                 JOptionPane.showMessageDialog(this,
                         "Bitte eine gültige Zahl bei der Personenanzahl eingeben!",
                         "Fehler", JOptionPane.ERROR_MESSAGE);
-                sperreAktionen();
+                resetStatusNachAenderung();
             }
         }
 
