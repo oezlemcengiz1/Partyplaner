@@ -377,7 +377,7 @@ import java.util.ArrayList;
                 if (personen <= 0) {
                     JOptionPane.showMessageDialog(this,
                             "Personenanzahl muss größer als 0 sein!",
-                            "Fehler", JOptionPane.ERROR_MESSAGE);
+                            "Hinweis", JOptionPane.ERROR_MESSAGE);
                     //Buttons werden gesperrt
                     //damit man nicht nochmal was ändern kann und dann ohne die Kosten erneut zu berechnen speichern kann
                     sperreAktionen();
