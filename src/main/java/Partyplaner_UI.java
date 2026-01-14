@@ -105,11 +105,6 @@ import java.util.ArrayList;
             //damit man Startobjekte sofort sieht, ohne erst auf Filtern zu klicken
             aktualisiereTabelleNachFilter();
 
-            // NOCH ÄNDERN wie normaler ActionListener
-            //Musik RadioButtons bei Änderungen -> erneut Kosten berechnen (Speichern, Bestellung ausführen Button "erlöscht")
-
-
-
             //Essen = Ja
             essenJaRadioButton.addActionListener(new ActionListener() {
                 @Override
@@ -357,7 +352,7 @@ import java.util.ArrayList;
         private void berechneKosten() {
             try {
                 //Personenanzahl
-                int personen = Integer.parseInt(personenanzahlTextField.getText().trim());
+                int personen = Integer.parseInt(personenanzahlTextField.getText());
 
                 //Personenanzahl darf nicht 0 oder negativ sein
                 if (personen <= 0) {
