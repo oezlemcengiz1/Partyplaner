@@ -269,12 +269,11 @@ import java.util.ArrayList;
             //DefaultTableModel: Daten für JTable
             //erste gespeicherte fängt dann direkt bei 0 an
             tableModel = new DefaultTableModel(spalten, 0) {
-                @Override
-                //isCellEditable: damit man Daten nicht in der Tabelle ändern kann
-                public boolean isCellEditable(int row, int column) {
-                    return false;
-                }
-            };
+            //isCellEditable: damit man Daten nicht in der Tabelle ändern kann
+            public boolean isCellEditable ( int row, int column){
+                return false;
+            }
+        };
 
             //verknüpft JTable mit TableModel -> JTable weiß welche Daten sie anzeigen soll
             filternTable.setModel(tableModel);
